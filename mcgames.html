@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cadastro MCGAMES</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      text-align: center;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    h2 {
+      font-size: 28px;
+      color: #ff4d4d;
+      margin-bottom: 20px;
+    }
+    input, button {
+      padding: 12px;
+      margin: 10px;
+      font-size: 16px;
+      width: 80%;
+      max-width: 360px;
+      border: none;
+      border-radius: 8px;
+    }
+    input {
+      background-color: #4d0000;
+      color: white;
+    }
+    button {
+      background-color: #e74c3c;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #c0392b;
+    }
+    img {
+      margin-top: 30px;
+      max-width: 90%;
+      height: auto;
+      border-radius: 12px;
+    }
+    #mensagem {
+      margin-top: 10px;
+      font-size: 16px;
+      color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <h2>Preencha para continuar seu cadastro na MCGAMES</h2>
+  <input type="text" id="nome" placeholder="Nome" />
+  <br />
+  <input type="text" id="numero" placeholder="Número de contato" />
+  <br />
+  <button onclick="enviarDados()">Confirmar</button>
+  <p id="mensagem"></p>
+  <img src="https://i.ibb.co/kg13RhHC/468979395-17949509573910018-4529741816224686894-n.jpg" alt="Legalizado MCGAMES" />
+
+  <script>
+    function enviarDados() {
+      const nome = document.getElementById("nome").value.trim();
+      const numero = document.getElementById("numero").value.trim();
+      const mensagem = document.getElementById("mensagem");
+
+      if (nome === "" || numero === "") {
+        mensagem.innerText = "Você precisa preencher os campos acima.";
+        return;
+      }
+
+      fetch("https://api.baserow.io/api/database/rows/table/494548/", {
+        method: "POST",
+        headers: {
+          Authorization: "Token mLN6SdVF5nYFw8U9pAdIsxPxMk1Zxecf",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          "field_3900329": nome,
+          "field_3900334": numero
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log("Resposta do Baserow:", data);
+        mensagem.innerText = "Confirmado, estamos te direcionando para o cadastro da MCGAMES...";
+        setTimeout(() => {
+          window.location.href = "https://go.aff.mcgames.bet/yob7opvr";
+        }, 2000);
+      })
+      .catch(error => {
+        console.error("Erro ao enviar:", error);
+        mensagem.innerText = "Erro ao enviar os dados. Tente novamente.";
+      });
+    }
+  </script>
+</body>
+</html>
