@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sorteio</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 32px;
+      color: #a29bfe;
+    }
+    h3 {
+      font-size: 18px;
+      color: yellow;
+      margin-bottom: 20px;
+    }
+    input {
+      background-color: #3e2f74;
+      border: none;
+      color: white;
+      padding: 12px;
+      margin: 10px auto;
+      width: 80%;
+      max-width: 360px;
+      font-size: 16px;
+      border-radius: 8px;
+      display: block;
+    }
+    button {
+      background-color: #a29bfe;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #8e82f0;
+    }
+    #mensagem {
+      margin-top: 20px;
+      color: #00ffcc;
+      font-size: 18px;
+    }
+    .regras-fixas {
+      margin-top: 25px;
+      text-align: left;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 16px;
+      color: yellow; /* ← Alterado para amarelo */
+    }
+    .regras-fixas p {
+      margin: 6px 0;
+    }
+    .boa-sorte {
+      text-align: center;
+      margin-top: 25px;
+    }
+    .boa-sorte p {
+      font-size: 18px;
+      color: #a29bfe;
+      margin-bottom: 10px;
+    }
+    .boa-sorte img {
+      max-width: 220px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>SORTEIO DE BANCA DE 30 R$</h1>
+  <h3>IMPORTANTE! LEIAM AS REGRAS</h3>
+
+  <div id="formulario">
+    <input type="text" id="instagram" placeholder="Seu @Instagram">
+    <button onclick="participar()">Confirmar</button>
+  </div>
+
+  <p id="mensagem"></p>
+
+  <!-- Botão para voltar ao index (inicialmente escondido) -->
+  <div id="botao-voltar" style="display: none;">
+    <a href="index.html">
+      <button>Voltar</button>
+    </a>
+  </div>
+
+  <div class="regras-fixas">
+    <p>· Precisa ter uma conta na UPBET</p>
+    <p>· Precisa ser seguidor no Instagram</p>
+    <p>· Coloque o seu @ certo sem nenhum erro de digitação</p>
+  </div>
+
+  <div class="boa-sorte">
+    <p>BOA SORTE 🍀</p>
+    <img src="https://i.ibb.co/Kpj4kCxL/Design-sem-nome-4.png" alt="Boa Sorte">
+  </div>
+
+  <script>
+    const API_TOKEN = 'mLN6SdVF5nYFw8U9pAdIsxPxMk1Zxecf';
+    const TABELA_ID = 495416;
+    const INSTAGRAM_ID = 'field_3908094';
+    const SORTEIO_ATIVO = true;
+
+    async function participar() {
+      let insta = document.getElementById("instagram").value.trim().toLowerCase();
+      const msg = document.getElementById("mensagem");
+
+      if (!SORTEIO_ATIVO) {
+        msg.innerText = "No momento, o sorteio está desativado.";
+        return;
+      }
+
+      if (!insta || !insta.startsWith('@')) {
+        msg.innerText = "Digite um @ válido para participar.";
+        return;
+      }
+
+      const check = await fetch(`https://api.baserow.io/api/database/rows/table/${TABELA_ID}/?user_field_names=true&filter__${INSTAGRAM_ID}__exact=${encodeURIComponent(insta)}`, {
+        headers: {
+          Authorization: `Token ${API_TOKEN}`
+        }
+      });
+
+      const data = await check.json();
+
+      if (data.count > 0) {
+        msg.innerText = "Você já está participando do sorteio!";
+        return;
+      }
+
+      const salvar = await fetch(`https://api.baserow.io/api/database/rows/table/${TABELA_ID}/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Token ${API_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          [INSTAGRAM_ID]: insta
+        })
+      });
+
+      if (salvar.ok) {
+        document.getElementById("formulario").style.display = "none";
+        msg.innerText = "🎉 Parabéns! Você está participando do sorteio!";
+        document.getElementById("botao-voltar").style.display = "block";
+      } else {
+        msg.innerText = "Erro ao enviar dados. Tente novamente.";
+      }
+    }
+  </script>
+</body>
+</html>
