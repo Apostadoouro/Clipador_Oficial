@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Clipador Oficial</title>
+  <style>
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-color: #000;
+      z-index: -1;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+      background-color: transparent;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .perfil-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-top: 30px;
+      border: 3px solid white;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin: 20px 0 5px;
+    }
+
+    p {
+      font-size: 16px;
+      margin: 5px 0 20px;
+    }
+
+    .botao {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #001f3f;
+      border-radius: 30px;
+      margin: 12px auto;
+      width: 90%;
+      max-width: 400px;
+      padding: 12px 16px;
+      color: white;
+      font-size: 16px;
+      text-decoration: none;
+      position: relative;
+      overflow: hidden;
+      transition: 0.3s ease-in-out;
+    }
+
+    .botao img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 12px;
+      object-fit: cover;
+    }
+
+    .botao::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -75%;
+      width: 50%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-20deg);
+      animation: brilho 2s infinite;
+    }
+
+    @keyframes brilho {
+      0% { left: -75%; }
+      100% { left: 125%; }
+    }
+
+    .botao:hover {
+      transform: scale(1.03);
+    }
+
+    @media (hover: none) {
+      .botao:active {
+        transform: scale(0.97);
+        background-color: #002b5c;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particles-js"></div>
+
+  <div class="container">
+    <img class="perfil-img" src="https://i.ibb.co/nq5HsLCW/IMG-20250203-205533-774-1.webp" alt="Perfil"/>
+    <h1>Clipador Oficial</h1>
+    <p>As melhores plataformas estão aqui 😁<br>
+    Ganhou sacou 😱 Todas são 100% Legalizadas</p>
+
+    <a class="botao" href="mcgames.html">
+      <img src="https://i.ibb.co/RpD1sdvG/Design-sem-nome-7.png" alt="Plataforma 1">
+      <span>Plataforma 1 👈</span>
+    </a>
+
+    <a class="botao" href="Betaki.html">
+      <img src="https://i.ibb.co/7dPbjtv0/Design-sem-nome-9.png" alt="Plataforma 2">
+      <span>Plataforma 2 👈</span>
+    </a>
+
+    <a class="botao" href="upbet.html">
+      <img src="https://o.qoo-img.com/ggpht/ADatI-acIqN43pLHrVx-pUUcvvSaq3fOl_npMaCdokGWmjFRSIgVCLlbkJ0x2FbggMPA" alt="Plataforma 3">
+      <span>Plataforma 3 👈</span>
+    </a>
+
+    <a class="botao" href="sorteio.html">
+      <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQslOjGl7jMAwSB6NqcBrS4kmH1L1GppzEGR1b5PMajsFYnl0uy" alt="Sorteios">
+      <span>Sorteios 👈</span>
+    </a>
+
+    <a class="botao" href="afiliado.html">
+      <img src="https://img.freepik.com/vetores-premium/desenho-de-streetwear-money-angel_96628-541.jpg?w=360" alt="Afiliado">
+      <span>Convide pessoas e ganhe 50R$ 👈</span>
+    </a>
+
+    <a class="botao" href="https://www.instagram.com/clipador_oficial/" target="_blank">
+      <img src="https://cdn.pixabay.com/photo/2021/06/15/12/14/instagram-6338393_1280.png" alt="Instagram">
+      <span>Instagram 👈</span>
+    </a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 60, density: { enable: true, value_area: 800 } },
+        color: { value: "#00ffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.4, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#00ffff",
+          opacity: 0.3,
+          width: 1
+        },
+        move: {
+          enable: true,
+          speed: 2
+        }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          grab: { distance: 140, line_linked: { opacity: 0.5 } },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+  </script>
+</body>
+</html>

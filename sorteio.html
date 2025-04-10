@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sorteio Exclusivo</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      overflow-x: hidden;
+      margin: 0;
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      top: 0;
+      left: 0;
+    }
+
+    h1 {
+      font-size: 30px;
+      color: #e74c3c;
+      margin-bottom: 5px;
+      text-shadow: 0 0 8px #ff4d4d;
+    }
+
+    .emojis {
+      font-size: 28px;
+      color: #e74c3c;
+      margin-bottom: 15px;
+    }
+
+    input {
+      background-color: #5a1e1e;
+      border: none;
+      color: white;
+      padding: 12px;
+      margin: 10px auto;
+      width: 80%;
+      max-width: 360px;
+      font-size: 16px;
+      border-radius: 8px;
+      display: block;
+    }
+
+    button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+      box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+    }
+
+    button:hover {
+      background-color: #c0392b;
+    }
+
+    #mensagem {
+      margin-top: 20px;
+      color: #00ffcc;
+      font-size: 18px;
+    }
+
+    .regras {
+      margin-top: 25px;
+      max-width: 400px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 16px;
+      color: #f1c40f;
+      border: 1px solid #f1c40f;
+      padding: 15px;
+      border-radius: 10px;
+    }
+
+    .regras p {
+      margin: 12px 0;
+    }
+
+    .regras a {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 8px 12px;
+      background-color: #e74c3c;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .regras a:hover {
+      background-color: #c0392b;
+    }
+
+    .imagem-extra {
+      margin-top: 30px;
+    }
+
+    .imagem-extra img {
+      max-width: 220px;
+      border: 3px solid #e74c3c;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(231, 76, 60, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particles-js"></div>
+
+  <h1>Sorteio de Banca R$30</h1>
+  <div class="emojis">🎁🎁</div>
+
+  <input type="text" id="instagram" placeholder="Seu @Instagram">
+  <button onclick="participar()">Confirmar Participação</button>
+
+  <p id="mensagem"></p>
+
+  <div class="regras">
+    <p>✅ Ter uma conta na MC
+      <br><a href="mcgames.html">Clique aqui para criar agora</a>
+    </p>
+    <p>✅ Ser seguidor no Instagram
+      <br><a href="https://www.instagram.com/clipador_oficial/" target="_blank">Seguir no Instagram</a>
+    </p>
+    <p>✅ Digite seu @ corretamente para garantir a participação</p>
+  </div>
+
+  <div class="imagem-extra">
+    <img src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcQslOjGl7jMAwSB6NqcBrS4kmH1L1GppzEGR1b5PMajsFYnl0uy" alt="Sorteio Visual">
+  </div>
+
+  <!-- Partículas -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  <script>
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 50, density: { enable: true, value_area: 800 } },
+        color: { value: "#e74c3c" },
+        shape: { type: "circle" },
+        opacity: { value: 0.3, random: true },
+        size: { value: 3, random: true },
+        line_linked: {
+          enable: true,
+          distance: 150,
+          color: "#e74c3c",
+          opacity: 0.25,
+          width: 1
+        },
+        move: { enable: true, speed: 1.5 }
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" }
+        },
+        modes: {
+          grab: { distance: 140, line_linked: { opacity: 0.5 } },
+          push: { particles_nb: 4 }
+        }
+      },
+      retina_detect: true
+    });
+
+    const API_TOKEN = 'mLN6SdVF5nYFw8U9pAdIsxPxMk1Zxecf';
+    const TABELA_ID = 495416;
+    const INSTAGRAM_ID = 'field_3908094';
+    const SORTEIO_ATIVO = false; // ← Altere para false para desativar
+
+    async function participar() {
+      const insta = document.getElementById("instagram").value.trim().toLowerCase();
+      const msg = document.getElementById("mensagem");
+
+      if (!SORTEIO_ATIVO) {
+        msg.innerText = "O sorteio está desativado no momento.";
+        return;
+      }
+
+      if (!insta || !insta.startsWith('@')) {
+        msg.innerText = "Digite um @ válido para participar.";
+        return;
+      }
+
+      const check = await fetch(`https://api.baserow.io/api/database/rows/table/${TABELA_ID}/?user_field_names=true&filter__${INSTAGRAM_ID}__exact=${encodeURIComponent(insta)}`, {
+        headers: {
+          Authorization: `Token ${API_TOKEN}`
+        }
+      });
+
+      const data = await check.json();
+
+      if (data.count > 0) {
+        msg.innerText = "Você já está participando do sorteio!";
+        return;
+      }
+
+      const salvar = await fetch(`https://api.baserow.io/api/database/rows/table/${TABELA_ID}/`, {
+        method: "POST",
+        headers: {
+          Authorization: `Token ${API_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          [INSTAGRAM_ID]: insta
+        })
+      });
+
+      if (salvar.ok) {
+        msg.innerText = "🎉 Você entrou no sorteio! Boa sorte!";
+      } else {
+        msg.innerText = "Erro ao enviar dados. Tente novamente.";
+      }
+    }
+  </script>
+</body>
+</html>
